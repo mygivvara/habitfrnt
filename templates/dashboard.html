@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+
+    <div class="card">
+        <h2>My Habits</h2>
+        <form id="habitForm">
+            <div class="form-group">
+                <input class="input-field" type="text" name="name" placeholder="Habit name" required>
+                <input class="input-field" type="number" name="score" placeholder="Points" required>
+                <input class="input-field" type="number" name="groupId" placeholder="Group ID" required>
+                <button class="btn btn-primary" type="submit">Add Habit</button>
+            </div>
+        </form>
+    </div>
+
+
+    <div class="card">
+        <h3>Current Habits</h3>
+        <div class="habit-list">
+            {% for habit in habits %}
+            <div class="habit-item">
+                <div class="habit-info">
+                    <h4>{{ habit.name }}</h4>
+                    <p>Group: {{ habit.group_name }} | Score: {{ habit.score_amount }}</p>
+                </div>
+                <button class="btn complete-btn" data-task-id="{{ habit.id }}">✓ Complete</button>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+
+    <div class="card">
+        <h3>Leaderboard</h3>
+        <div class="leaderboard">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>User</th>
+                        <th>Score</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in leaderboard %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td>{{ user.username }}</td>
+                        <td>{{ user.score }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
