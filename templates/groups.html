@@ -5,7 +5,7 @@
     <div class="card">
         <h2>Create Group</h2>
         <form method="POST">
-            <input type="text" name="group_name" placeholder="Group Name"  class="input-field" required>
+            <input type="text" name="group_name" placeholder="Group Name" class="input-field" required>
             <button type="submit" class="btn btn-primary">Create</button>
         </form>
     </div>
@@ -13,23 +13,18 @@
     {% for group in groups %}
     <div class="card">
         <h3>{{ group.name }}</h3>
-        
+
         <div class="members-list">
             <h4>Members</h4>
             {% for member in group.members %}
             <div class="member-item">
                 <span>{{ member.username }}</span>
-                <button class="btn btn-primary" 
-                        data-group="{{ group.id }}" 
-                        data-user="{{ member.user_id }}">
-                    Remove
-                </button>
             </div>
             {% endfor %}
         </div>
 
-        <form class="add-member-form" data-group="{{ group.id }}">
-            <input type="text" placeholder="Username" class="input-field" required>
+        <form class="add-member-form" data-group="{{ group.id }}" method="POST" action="/add_member">
+            <input type="text" name="username" placeholder="Username" class="input-field" required>
             <button type="submit" class="btn btn-primary">Add Member</button>
         </form>
     </div>

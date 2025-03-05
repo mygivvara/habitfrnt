@@ -25,7 +25,9 @@
                     <h4>{{ habit.name }}</h4>
                     <p>Group: {{ habit.group_name }} | Score: {{ habit.score_amount }}</p>
                 </div>
-                <button class="btn complete-btn" data-task-id="{{ habit.id }}">✓ Complete</button>
+                <button class="btn complete-btn" data-task-id="{{ habit.id }}" onclick="completeTask({{ habit.id }})">✓
+                    Complete
+                </button>
             </div>
             {% endfor %}
         </div>
@@ -37,23 +39,38 @@
         <div class="leaderboard">
             <table>
                 <thead>
-                    <tr>
-                        <th>Rank</th>
-                        <th>User</th>
-                        <th>Score</th>
-                    </tr>
+                <tr>
+                    <th>Rank</th>
+                    <th>User</th>
+                    <th>Score</th>
+                </tr>
                 </thead>
                 <tbody>
-                    {% for user in leaderboard %}
-                    <tr>
-                        <td>{{ loop.index }}</td>
-                        <td>{{ user.username }}</td>
-                        <td>{{ user.score }}</td>
-                    </tr>
-                    {% endfor %}
+                {% for user in leaderboard %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.score }}</td>
+                </tr>
+                {% endfor %}
                 </tbody>
             </table>
         </div>
     </div>
 </div>
+<script>
+    function completeTask(taskId) {
+        fetch(`/complete_task/${taskId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            }
+        }).then(response => {
+            if (response.ok) {
+                location.reload(); // Перезагрузить страницу после завершения задачи
+            }
+        });
+    }
+</script>
 {% endblock %}
